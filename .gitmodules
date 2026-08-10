@@ -1,0 +1,3 @@
+[submodule "zemi"]
+	path = zemi
+	url = https://github.com/axo-ma/zemi.git
