@@ -54,8 +54,8 @@
 
 Создавай и настраивай среду командой `python 00_init.py`. Общая версионированная
 среда размещается в `@inst/_venvs`, наследует пакеты WinPython и записывается в
-`.vscode/settings.json` через `python-envs.pythonProjects` и
-`python-envs.workspaceSearchPaths`. После настройки используй выбранную
+`.vscode/settings.json` через `python.defaultInterpreterPath` и
+`python.terminal.activateEnvironment`. После настройки используй выбранную
 Python-среду текущего проекта.
 
 ## Стандартные маркеры
