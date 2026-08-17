@@ -60,16 +60,16 @@ python 00_init.py
 явно обозначает возвращаемую сущность:
 
 ```python
-assistant.libs.openai.client
-assistant.libs.litellm.router
-assistant.libs.dspy.model
-assistant.libs.instructor.client
-assistant.libs.pydantic_ai.model
-assistant.libs.smolagents.model
-assistant.libs.llama_index.model
-assistant.libs.httpx.client
-assistant.libs.outlines.model
-assistant.libs.guidance.model
+assistant.clients.openai.client
+assistant.clients.litellm.router
+assistant.clients.dspy.model
+assistant.clients.instructor.client
+assistant.clients.pydantic_ai.model
+assistant.clients.smolagents.model
+assistant.clients.llama_index.model
+assistant.clients.httpx.client
+assistant.clients.outlines.model
+assistant.clients.guidance.model
 ```
 
 Объект создаётся при первом обращении и затем кэшируется. Низкоуровневые
