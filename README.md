@@ -53,3 +53,25 @@ python 00_init.py
 импорта обязан получить среду через `PythonVenv.from_config()` и вызвать
 `verify()`. Использовать функциональность ZEMI можно только после успешной
 проверки.
+
+## Библиотечные интеграции Arsenal
+
+Каждый ассистент предоставляет десять ленивых интеграций. Последнее имя пути
+явно обозначает возвращаемую сущность:
+
+```python
+assistant.libs.openai.client
+assistant.libs.litellm.router
+assistant.libs.dspy.model
+assistant.libs.instructor.client
+assistant.libs.pydantic_ai.model
+assistant.libs.smolagents.model
+assistant.libs.llama_index.model
+assistant.libs.httpx.client
+assistant.libs.outlines.model
+assistant.libs.guidance.model
+```
+
+Объект создаётся при первом обращении и затем кэшируется. Низкоуровневые
+`openai.client` и `httpx.client` передают параметры llama.cpp, включая
+`grammar` и `json_schema`, без фильтрации библиотекой Arsenal.
