@@ -1,42 +1,43 @@
 # ZEMI Component
 
-Все действия ниже выполняйте в VS Code, открытом для workspace текущего
+Perform all steps below in VS Code opened with the workspace of the current
 ZEMI Instance.
 
-## 1. Создайте компонент
+## 1. Create the component
 
-Откройте встроенный терминал VS Code и выполните:
+Open the VS Code integrated terminal and run:
 
 ```powershell
 zemi component create my_component
 ```
 
-Команда создаст новый ZEMI Component из этого шаблона и добавит его в текущий
-workspace. Если VS Code запросит доверие к добавленному каталогу, подтвердите
-его. Затем откройте встроенный терминал для созданного компонента или перейдите
-в его каталог:
+The command creates a new ZEMI Component from this template and adds it to the
+current workspace. If VS Code asks whether you trust the added directory,
+confirm it. Then open an integrated terminal for the created component or
+change to its directory:
 
 ```powershell
 cd my_component
 ```
 
-## 2. Инициализируйте Python venv
+## 2. Initialize the Python venv
 
-Откройте `00_init.py` и нажмите **Run Python File** в правом верхнем углу
-редактора. Тот же скрипт можно запустить во встроенном терминале VS Code:
+Open `00_init.py` and click **Run Python File** in the upper-right corner of
+the editor. You can run the same script in the VS Code integrated terminal:
 
 ```powershell
 python 00_init.py
 ```
 
-`00_init.toml` декларативно описывает C-bundle компонента, а `00_init.py`
-создаёт или актуализирует Python venv, устанавливает Z-bundle и C-bundle,
-фиксирует их состояние, проверяет окружение и настраивает интерпретатор VS Code.
+`00_init.toml` declaratively describes the component C-bundle, while
+`00_init.py` creates or updates the Python venv, installs the Z-bundle and
+C-bundle, records their state, verifies the environment, and configures the
+VS Code interpreter.
 
-Чтобы подключить собственные Python-библиотеки:
+To add component-specific Python libraries:
 
-1. Укажите версию C-bundle в `REQUIRED_C_BUNDLE_VERSION` в `00_init.toml`.
-2. Добавьте пакеты компонента в список `C_BUNDLE_PACKAGES`, например:
+1. Set the C-bundle version in `REQUIRED_C_BUNDLE_VERSION` in `00_init.toml`.
+2. Add component packages to `C_BUNDLE_PACKAGES`, for example:
 
    ```toml
    REQUIRED_C_BUNDLE_VERSION = "mycomp260816"
@@ -46,37 +47,37 @@ python 00_init.py
    ]
    ```
 
-3. Из корня компонента запустите `python 00_init.py`.
-4. Убедитесь, что инициализация завершилась успешно, включая итоговую проверку
-   Python venv и штампов Z-bundle и C-bundle.
+3. Run `python 00_init.py` from the component root.
+4. Confirm that initialization completes successfully, including the final
+   verification of the Python venv and the Z-bundle and C-bundle stamps.
 
-`00_init.py` предназначен не только для установки библиотек. При необходимости
-он может выполнять другие операции первоначальной подготовки компонента:
-запускать установочные скрипты через `venv.run_script("@comp/install.py")`,
-генерировать конфигурацию, подготавливать каталоги и ресурсы, проверять
-окружение и выполнять другие необходимые компоненту операции. Дополнительные
-операции размещайте до `venv.finalize_install()` и итогового `venv.verify()`.
+`00_init.py` is not limited to installing libraries. When necessary, it can
+perform other initial component setup: run installation scripts through
+`venv.run_script("@comp/install.py")`, generate configuration, prepare
+directories and resources, verify the environment, and perform other
+component-specific operations. Place additional operations before
+`venv.finalize_install()` and the final `venv.verify()`.
 
-## 3. Проверьте playbook
+## 3. Verify the playbook
 
-Откройте `playbook.ipynb` в VS Code и выполните все ячейки. Если VS Code
-предложит выбрать kernel, выберите Python-интерпретатор, настроенный на
-предыдущем шаге. Убедитесь, что notebook выполняется без ошибок.
+Open `playbook.ipynb` in VS Code and run all cells. If VS Code asks you to
+select a kernel, choose the Python interpreter configured in the previous
+step. Confirm that the notebook runs without errors.
 
-## 4. Начинайте разработку
+## 4. Start development
 
-Добавляйте код, notebooks, данные и настройки своего компонента. При изменении
-пакетов или установочного кода измените RunID в `REQUIRED_C_BUNDLE_VERSION`.
+Add your component code, notebooks, data, and settings. When packages or
+installation code change, update the RunID in
+`REQUIRED_C_BUNDLE_VERSION`.
 
-Сам импорт `zemi` не проверяет окружение. Любой пользовательский код после
-импорта обязан получить среду через `PythonVenv.from_config()` и вызвать
-`verify()`. Использовать функциональность ZEMI можно только после успешной
-проверки.
+Importing `zemi` alone does not verify the environment. After the import,
+user code must obtain the environment through `PythonVenv.from_config()` and
+call `verify()`. Use ZEMI functionality only after verification succeeds.
 
-## Библиотечные интеграции Arsenal
+## Arsenal library integrations
 
-Каждый ассистент предоставляет десять ленивых интеграций. Последнее имя пути
-явно обозначает возвращаемую сущность:
+Each assistant provides ten lazy integrations. The final path segment
+explicitly identifies the returned entity:
 
 ```python
 assistant.clients.openai.client
@@ -91,6 +92,6 @@ assistant.clients.outlines.model
 assistant.clients.guidance.model
 ```
 
-Объект создаётся при первом обращении и затем кэшируется. Низкоуровневые
-`openai.client` и `httpx.client` передают параметры llama.cpp, включая
-`grammar` и `json_schema`, без фильтрации библиотекой Arsenal.
+Each object is created on first access and then cached. The low-level
+`openai.client` and `httpx.client` integrations pass llama.cpp parameters,
+including `grammar` and `json_schema`, without Arsenal library filtering.
