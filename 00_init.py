@@ -17,7 +17,6 @@ def initialize_component_python_venv() -> None:
     # venv.run_script("@comp/install.py")
 
     venv.finalize_install()
-    venv.verify()
     venv.set_as_vscode_interpreter()
 
 

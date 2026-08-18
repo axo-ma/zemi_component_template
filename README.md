@@ -31,8 +31,8 @@ python 00_init.py
 
 `00_init.toml` declaratively describes the component C-bundle, while
 `00_init.py` creates or updates the Python venv, installs the Z-bundle and
-C-bundle, records their state, verifies the environment, and configures the
-VS Code interpreter.
+C-bundle, records their state, and configures the VS Code interpreter. The
+new interpreter is used after VS Code starts a new terminal or notebook kernel.
 
 To add component-specific Python libraries:
 
@@ -48,21 +48,21 @@ To add component-specific Python libraries:
    ```
 
 3. Run `python 00_init.py` from the component root.
-4. Confirm that initialization completes successfully, including the final
-   verification of the Python venv and the Z-bundle and C-bundle stamps.
+4. Confirm that initialization completes successfully with `VS Code configured`.
 
 `00_init.py` is not limited to installing libraries. When necessary, it can
 perform other initial component setup: run installation scripts through
 `venv.run_script("@comp/install.py")`, generate configuration, prepare
 directories and resources, verify the environment, and perform other
 component-specific operations. Place additional operations before
-`venv.finalize_install()` and the final `venv.verify()`.
+`venv.finalize_install()` and the final `venv.set_as_vscode_interpreter()`.
 
 ## 3. Verify the playbook
 
 Open `playbook.ipynb` in VS Code and run all cells. If VS Code asks you to
 select a kernel, choose the Python interpreter configured in the previous
-step. Confirm that the notebook runs without errors.
+step. The playbook verifies the Python venv and its Z-bundle and C-bundle
+stamps from that interpreter. Confirm that the notebook runs without errors.
 
 ## 4. Start development
 
