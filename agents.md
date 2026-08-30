@@ -88,8 +88,9 @@ are located directly in the expected roots.
 
 ## Component execution
 
-- Keep exactly one declarative `job.exp.py` per component; do not create jobs
-  per playbook.
+- Keep exactly one declarative `job.exp.py` in this component template. A
+  component created from the template may contain any number of job files,
+  including separate jobs for individual playbooks or other execution flows.
 - Keep complete component configurations as tracked TOML files in `params/`.
   Define every playbook in each applicable configuration, put notebook-only
   values under its `playbook_params` table, and tag the notebook defaults cell

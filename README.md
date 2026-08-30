@@ -73,10 +73,12 @@ Run the complete component from its root:
 python job.exp.py
 ```
 
-There is exactly one `job.exp.py` per component. It constructs
+The template contains exactly one default `job.exp.py`. It constructs
 `ZemiComponent`, runs its enabled playbooks, propagates failures as a nonzero
-process exit, and always closes the component so its report is saved. The
-terminal shows a prominent start and completion or failure block for every
+process exit, and always closes the component so its report is saved. A
+component created from the template may contain any number of job files,
+including separate jobs for individual playbooks or other execution flows.
+The terminal shows a prominent start and completion or failure block for every
 executed playbook, including its total duration and run output path. Executed
 notebooks and `report.json` are written under the process-local
 `.tmp/runYYMMDD-HHMMSS` directory; source notebooks are not modified. In the
