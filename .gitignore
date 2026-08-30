@@ -27,3 +27,6 @@ htmlcov/
 # Operating systems
 Thumbs.db
 .DS_Store
+
+# Component runs
+.tmp/

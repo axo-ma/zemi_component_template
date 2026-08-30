@@ -86,3 +86,14 @@ are located directly in the expected roots.
 - Use standard Git only, without GitHub CLI.
 - Use the `main` branch.
 
+## Component execution
+
+- Keep exactly one declarative `job.exp.py` per component; do not create jobs
+  per playbook.
+- Keep complete component configurations as tracked TOML files in `params/`.
+  Define every playbook in each applicable configuration, put notebook-only
+  values under its `playbook_params` table, and tag the notebook defaults cell
+  exactly `parameters` for Papermill.
+- Store component parameter TOMLs in `params/` and track them in Git.
+- Access the component root through `env.path.comp.root` and per-process run
+  output through `env.path.comp.runid`.

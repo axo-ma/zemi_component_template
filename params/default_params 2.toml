@@ -1,0 +1,19 @@
+[pipeline_params]
+
+[component_params]
+stop_on_error = true
+# component_name is optional; by default the component directory name is used.
+
+[[playbooks_params]]
+playbook_name = "playbook.ipynb"
+enabled = true
+
+    [playbooks_params.playbook_params]
+    model_name = "lfm2_350m"
+
+[[playbooks_params]]
+playbook_name = "playbook_excel_ling30_gbnf.ipynb"
+enabled = true
+
+    [playbooks_params.playbook_params]
+    model_name = "ling30_tiny"

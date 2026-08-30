@@ -57,12 +57,45 @@ directories and resources, verify the environment, and perform other
 component-specific operations. Place additional operations before
 `venv.finalize_install()` and the final `venv.set_as_vscode_interpreter()`.
 
-## 3. Verify the playbook
+## 3. Configure and run the component
 
-Open `playbook.ipynb` in VS Code and run all cells. If VS Code asks you to
-select a kernel, choose the Python interpreter configured in the previous
-step. The playbook verifies the Python venv and its Z-bundle and C-bundle
-stamps from that interpreter. Confirm that the notebook runs without errors.
+Each TOML file in `params/` is a complete component configuration with three
+explicit levels:
+
+- `pipeline_params` contains pipeline metadata and is not injected into notebooks;
+- `component_params` configures the component and is not injected into notebooks;
+- each `playbooks_params` entry selects a notebook, enables or disables it, and
+  passes only its nested `playbook_params` to Papermill.
+
+Run the complete component from its root:
+
+```powershell
+python job.exp.py
+```
+
+There is exactly one `job.exp.py` per component. It constructs
+`ZemiComponent`, runs its enabled playbooks, propagates failures as a nonzero
+process exit, and always closes the component so its report is saved. The
+terminal shows a prominent start and completion or failure block for every
+executed playbook, including its total duration and run output path. Executed
+notebooks and `report.json` are written under the process-local
+`.tmp/runYYMMDD-HHMMSS` directory; source notebooks are not modified. In the
+executed copy, every completed code cell is followed by a visible note with
+that cell's execution time.
+
+When `params/` contains one TOML file, `ZemiComponent()` selects it
+automatically. With multiple files, the default `job.exp.py` asks which one to
+use. For unattended execution, select a tracked configuration explicitly:
+
+```python
+component = ZemiComponent(
+    params_file="@comp/params/experiment.toml",
+)
+```
+
+Each parameterized notebook must contain one code cell tagged exactly
+`parameters`. Use `env.path.comp.root` for the component root and
+`env.path.comp.runid` for run-specific output.
 
 ## 4. Start development
 
@@ -70,9 +103,9 @@ Add your component code, notebooks, data, and settings. When packages or
 installation code change, update the RunID in
 `REQUIRED_C_BUNDLE_VERSION`.
 
-Importing `zemi` alone does not verify the environment. After the import,
-user code must obtain the environment through `PythonVenv.from_config()` and
-call `verify()`. Use ZEMI functionality only after verification succeeds.
+Importing `zemi` alone does not verify the environment. A playbook should
+obtain the environment through `PythonVenv.from_config()` and call `verify()`
+before using ZEMI functionality.
 
 ## Arsenal library integrations
 
