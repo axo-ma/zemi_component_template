@@ -60,7 +60,9 @@ versioned environment is stored in `@inst/_venvs`, inherits WinPython packages,
 and is written to `.vscode/settings.json` through
 `python.defaultInterpreterPath` and `python.terminal.activateEnvironment`.
 After configuration, use the selected Python environment for the current
-project.
+project. For Python commands, use the interpreter configured in the project's
+VS Code `python.defaultInterpreterPath` setting. Run tests, scripts, import
+checks, and dependency management through that interpreter.
 
 ## Standard markers
 
