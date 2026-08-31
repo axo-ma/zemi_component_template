@@ -63,7 +63,8 @@ Each TOML file in `params/` is a complete component configuration with three
 explicit levels:
 
 - `pipeline_params` contains pipeline metadata and is not injected into notebooks;
-- `component_params` configures the component and is not injected into notebooks;
+- `component_params` configures the component and is not injected into notebooks
+  unless a `playbook_params.__include__` explicitly references one of its tables;
 - each `playbooks_params` entry selects a notebook, enables or disables it, and
   passes only its nested `playbook_params` to Papermill.
 
@@ -98,6 +99,52 @@ component = ZemiComponent(
 Each parameterized notebook must contain one code cell tagged exactly
 `parameters`. Use `env.path.comp.root` for the component root and
 `env.path.comp.runid` for run-specific output.
+
+### Arsenal configuration and lifecycle
+
+An Arsenal TOML declares its execution mode as model-set metadata:
+
+```toml
+[arsenal]
+mode = "model" # or "router"
+```
+
+The notebook does not pass a mode to `zemi.arsenal.begin()`; `ArsenalSession`
+loads and validates it from the selected TOML. In Model Mode every configured
+llama server must contain exactly one model.
+
+Interactive notebook runs use safe defaults in the cell tagged `parameters`:
+
+```python
+arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
+arsenal_stop_before_playbook_begin = True
+arsenal_stop_after_playbook_end = True
+```
+
+For a batch job, `component_params.arsenal` is the shared parameter bucket.
+Each applicable `playbook_params` table includes it explicitly:
+
+```toml
+[component_params.arsenal]
+arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
+arsenal_stop_before_playbook_begin = false
+arsenal_stop_after_playbook_end = false
+
+[[playbooks_params]]
+playbook_name = "playbook.ipynb"
+enabled = true
+
+    [playbooks_params.playbook_params]
+    __include__ = { ref = "component_params.arsenal" }
+    model_name = "lfm2_350m"
+```
+
+Local values in `playbook_params` override included values. The default batch
+flags are `false/false` because `job.exp.py` owns the outer lifecycle: it stops
+the shared Arsenal configuration before the first notebook and guarantees
+another stop after the complete job. Notebooks execute exactly the policy
+passed by Papermill and therefore do not duplicate the job-level stop
+operations.
 
 ## 4. Start development
 
