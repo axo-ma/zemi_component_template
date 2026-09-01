@@ -169,8 +169,7 @@ Interactive notebook runs use safe defaults in the cell tagged `parameters`:
 
 ```python
 arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
-arsenal_stop_before_playbook_begin = True
-arsenal_stop_after_playbook_end = True
+arsenal_start_and_stop_at_job_level = False
 ```
 
 For a batch job, `component_params.arsenal` is the shared parameter bucket.
@@ -179,8 +178,7 @@ Each applicable `playbook_params` table includes it explicitly:
 ```toml
 [component_params.arsenal]
 arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
-arsenal_stop_before_playbook_begin = false
-arsenal_stop_after_playbook_end = false
+arsenal_start_and_stop_at_job_level = true
 
 [[playbooks_params]]
 playbook_name = "playbook.ipynb"

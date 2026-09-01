@@ -6,8 +6,7 @@ stop_on_error = true
 
 [component_params.arsenal]
 arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
-arsenal_stop_before_playbook_begin = false
-arsenal_stop_after_playbook_end = false
+arsenal_start_and_stop_at_job_level = true
 
 [[playbooks_params]]
 playbook_name = "playbook.ipynb"
