@@ -1,0 +1,19 @@
+[arsenal]
+mode = "model"
+
+[[arsenal.endpoints]]
+name = "openrouter"
+kind = "external"
+protocol = "openai"
+provider = "openrouter"
+base_url = "https://openrouter.ai/api/v1"
+api_key = { env = "OPENROUTER_API_KEY", prompt = "Введите API-ключ OpenRouter", secret = true }
+healthcheck = "none"
+connect_timeout = 5.0
+request_timeout = 120.0
+validate_model = false
+    [[arsenal.endpoints.models]]
+    name = "openrouter_free"
+    model = "openrouter/free"
+        [[arsenal.endpoints.models.assistants]]
+        name = "assistant"

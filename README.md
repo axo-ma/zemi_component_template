@@ -1,5 +1,21 @@
 # ZEMI Component
 
+## Optional OpenRouter Free playbook
+
+`playbook_openrouter_free.ipynb` is an opt-in smoke example for OpenRouter's
+`openrouter/free` dynamic router. Its complete batch configuration is
+`params/openrouter_free.toml`, where it is disabled by default; the standard
+`params/default_params.toml` remains entirely local. Enable it explicitly for
+a manual external run. A normal local run never calls an external API or
+requests a key. On first
+interactive use, Arsenal asks for `OPENROUTER_API_KEY` with `getpass` and stores
+it only in `@inst/_secrets/arsenal.env`. Delete that single entry to rotate it.
+
+The selected free model can change between calls, so results are not fully
+reproducible. Availability and free-tier rate limits are controlled by
+OpenRouter. The smoke request intentionally avoids GBNF and strict structured
+output.
+
 Perform all steps below in VS Code opened with the workspace of the current
 ZEMI Instance.
 
