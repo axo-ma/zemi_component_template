@@ -75,14 +75,15 @@ component-specific operations. Place additional operations before
 
 ## 3. Configure and run the component
 
-Each TOML file in `params/` is a complete component configuration with three
-explicit levels:
+Each TOML file in `params/` is a complete component configuration. The
+component remains the implicit top level:
 
 - `pipeline_params` contains pipeline metadata and is not injected into notebooks;
 - `component_params` configures the component and is not injected into notebooks
   unless a `playbook_params.__include__` explicitly references one of its tables;
-- each `playbooks_params` entry selects a notebook, enables or disables it, and
-  passes only its nested `playbook_params` to Papermill.
+- each `[[arsenals]]` entry defines one ordered Arsenal group;
+- each nested `[[arsenals.playbooks_params]]` entry selects a notebook, enables
+  or disables it, and passes its nested `playbook_params` to Papermill.
 
 Run the complete component from its root:
 
@@ -172,29 +173,35 @@ arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
 arsenal_start_and_stop_at_job_level = False
 ```
 
-For a batch job, `component_params.arsenal` is the shared parameter bucket.
-Each applicable `playbook_params` table includes it explicitly:
+For a batch job, declare Arsenal groups in TOML order. A managed group requires
+`arsenal_config_path`; the component starts one session before the group and
+stops it after the group. The path and lifecycle flag are injected into every
+notebook in that group and cannot be overridden:
 
 ```toml
-[component_params.arsenal]
+[[arsenals]]
+name = "local-models"
 arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
 arsenal_start_and_stop_at_job_level = true
 
-[[playbooks_params]]
+[[arsenals.playbooks_params]]
 playbook_name = "playbook.ipynb"
 enabled = true
 
-    [playbooks_params.playbook_params]
-    __include__ = { ref = "component_params.arsenal" }
+    [arsenals.playbooks_params.playbook_params]
     model_name = "lfm2_350m"
 ```
 
-Local values in `playbook_params` override included values. The default batch
-flags are `false/false` because `job.exp.py` owns the outer lifecycle: it stops
-the shared Arsenal configuration before the first notebook and guarantees
-another stop after the complete job. Notebooks execute exactly the policy
-passed by Papermill and therefore do not duplicate the job-level stop
-operations.
+With `arsenal_start_and_stop_at_job_level = false`, the component does not
+manage Arsenal. A group-level `arsenal_config_path` is then only an inherited
+default and each notebook may override it in `playbook_params`. Groups and
+playbooks always execute in TOML order. `stop_on_error`, reporting, and final
+component closure still apply to the complete component. The default
+`job.exp.py` only constructs the component, calls `run()`, and guarantees
+`close()`; all Arsenal orchestration belongs to the component lifecycle.
+
+The previous top-level `[[playbooks_params]]` plus
+`[component_params.arsenal]` form remains supported for compatibility.
 
 ## 4. Start development
 
