@@ -113,6 +113,42 @@ The notebook does not pass a mode to `zemi.arsenal.begin()`; `ArsenalSession`
 loads and validates it from the selected TOML. In Model Mode every configured
 llama server must contain exactly one model.
 
+The primary object model also supports first-class managed and external
+endpoints:
+
+```python
+session.endpoints.host_llama.models.host_model
+session.models["host_model"]
+session.check("host_llama", "host_model")
+```
+
+Use `kind = "managed"` only for llama.cpp resources owned by Arsenal. The
+session may prepare and start those resources, but stops only processes it
+started itself. It never kills an existing process merely because it listens on
+the configured port. Managed `base_url` is derived from `runtime.host` and
+`runtime.port`.
+
+Use `kind = "external"` for an already-running local, VM/WSL/Docker, remote, or
+provider endpoint. Arsenal lazily checks and connects to it, but never starts or
+stops it. Configure VM host routing in the ZEMI Instance environment and pass it
+through `base_url = "${ZEMI_HOST_LLM_BASE_URL}"`; Arsenal does not guess host
+addresses. Put keys only in environment variables selected by `api_key_env`.
+
+Safe examples are included in:
+
+- `zemi/llm_managed_endpoint_example.toml` — managed llama.cpp;
+- `zemi/llm_external_local_example.toml` — external OpenAI-compatible host;
+- `zemi/llm_external_providers_example.toml` — OpenRouter and a direct provider.
+
+Healthchecks support `none`, `tcp`, and `models`; `validate_model = false`
+supports endpoints that restrict `/v1/models`. OpenAI-compatible endpoints use
+the integrations listed below without making LiteLLM an internal gateway.
+`protocol = "anthropic"` is a validated extension boundary, but native Anthropic
+clients are a documented next stage and currently raise an explicit unsupported
+error. See `zemi/ARSENAL_ENDPOINTS.md` for the complete schema, ownership rules,
+secret handling, and migration notes. Existing `[[arsenal.llamas]]` configs stay
+supported through strict legacy normalization.
+
 Interactive notebook runs use safe defaults in the cell tagged `parameters`:
 
 ```python
