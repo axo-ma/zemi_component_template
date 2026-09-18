@@ -102,7 +102,7 @@ are located directly in the expected roots.
   including separate jobs for individual playbooks or other execution flows.
 - Keep complete component configurations as tracked TOML files in `params/`.
   Define every playbook in each applicable configuration, put notebook-only
-  values under its `playbook_params` table, and tag the notebook defaults cell
+  values under its `playbooks.params` table, and tag the notebook defaults cell
   exactly `parameters` for Papermill.
 - Store component parameter TOMLs in `params/` and track them in Git.
 - Access the component root through `env.path.comp.root` and per-process run

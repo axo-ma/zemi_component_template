@@ -66,11 +66,11 @@ class OpenRouterFreePlaybookTests(unittest.TestCase):
     def test_batch_config_uses_job_level_lifecycle(self) -> None:
         with (ROOT / "params" / "openrouter_free.toml").open("rb") as file:
             params = tomllib.load(file)
-        lifecycle = params["component_params"]["arsenal"]
-        self.assertIs(lifecycle["arsenal_start_and_stop_at_job_level"], True)
+        lifecycle = params["arsenals"][0]
+        self.assertEqual(lifecycle["lifecycle"], "job")
         self.assertNotIn("arsenal_stop_before_playbook_begin", lifecycle)
         self.assertNotIn("arsenal_stop_after_playbook_end", lifecycle)
-        self.assertFalse(params["playbooks_params"][0]["enabled"])
+        self.assertFalse(params["playbooks"][0]["enabled"])
 
     def test_all_template_arsenal_notebooks_use_the_single_flag(self) -> None:
         for name in (

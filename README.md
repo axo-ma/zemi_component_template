@@ -76,14 +76,16 @@ component-specific operations. Place additional operations before
 ## 3. Configure and run the component
 
 Each TOML file in `params/` is a complete component configuration. The
-component remains the implicit top level:
+canonical Params 0.3 structure is explicit:
 
-- `pipeline_params` contains pipeline metadata and is not injected into notebooks;
-- `component_params` configures the component and is not injected into notebooks
-  unless a `playbook_params.__include__` explicitly references one of its tables;
-- each `[[arsenals]]` entry defines one ordered Arsenal group;
-- each nested `[[arsenals.playbooks_params]]` entry selects a notebook, enables
-  or disables it, and passes its nested `playbook_params` to Papermill.
+- `[system]` declares `version = "0.3"`; user values belong in
+  `[system.params]`;
+- `[component]` contains ZEMI lifecycle fields and `[component.params]`
+  contains component-owned user values;
+- each `[[arsenals]]` has a stable `id`, closed lifecycle fields, and optional
+  `[arsenals.params]` user values;
+- each top-level `[[playbooks]]` names its parent Arsenal explicitly and passes
+  only its nested `[playbooks.params]` values to Papermill.
 
 Run the complete component from its root:
 
@@ -174,34 +176,37 @@ arsenal_start_and_stop_at_job_level = False
 ```
 
 For a batch job, declare Arsenal groups in TOML order. A managed group requires
-`arsenal_config_path`; the component starts one session before the group and
+`config_path`; the component starts one session before the group and
 stops it after the group. The path and lifecycle flag are injected into every
 notebook in that group and cannot be overridden:
 
 ```toml
 [[arsenals]]
-name = "local-models"
-arsenal_config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
-arsenal_start_and_stop_at_job_level = true
+id = "local-models"
+config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
+lifecycle = "job"
 
-[[arsenals.playbooks_params]]
-playbook_name = "playbook.ipynb"
+[[playbooks]]
+id = "default"
+path = "playbook.ipynb"
+arsenal = "local-models"
 enabled = true
 
-    [arsenals.playbooks_params.playbook_params]
-    model_name = "lfm2_350m"
+[playbooks.params]
+model_name = "lfm2_350m"
 ```
 
-With `arsenal_start_and_stop_at_job_level = false`, the component does not
-manage Arsenal. A group-level `arsenal_config_path` is then only an inherited
-default and each notebook may override it in `playbook_params`. Groups and
+With `lifecycle = "external"`, the component does not manage Arsenal. Arsenal
+and playbook parameters remain separate unless connected with explicit
+`ref`/`__include__`. Groups and
 playbooks always execute in TOML order. `stop_on_error`, reporting, and final
 component closure still apply to the complete component. The default
 `job.exp.py` only constructs the component, calls `run()`, and guarantees
 `close()`; all Arsenal orchestration belongs to the component lifecycle.
 
-The previous top-level `[[playbooks_params]]` plus
-`[component_params.arsenal]` form remains supported for compatibility.
+The previous `pipeline_params`, `component_params`, `playbooks_params`, and
+`playbook_params` form remains supported for one compatibility window and emits
+a deprecation warning.
 
 ## 4. Start development
 

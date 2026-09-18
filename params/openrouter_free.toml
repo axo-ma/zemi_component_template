@@ -1,16 +1,22 @@
-[pipeline_params]
+[system]
+version = "0.3"
+[system.params]
 
-[component_params]
+[component]
 stop_on_error = true
+[component.params]
 
-[component_params.arsenal]
-arsenal_config_path = "@comp/arsenal_openrouter_free.toml"
-arsenal_start_and_stop_at_job_level = true
+[[arsenals]]
+id = "openrouter-free"
+config_path = "@comp/arsenal_openrouter_free.toml"
+lifecycle = "job"
+[arsenals.params]
 
-[[playbooks_params]]
-playbook_name = "playbook_openrouter_free.ipynb"
+[[playbooks]]
+id = "openrouter-free"
+path = "playbook_openrouter_free.ipynb"
+arsenal = "openrouter-free"
 enabled = false
 
-    [playbooks_params.playbook_params]
-    __include__ = { ref = "component_params.arsenal" }
-    prompt = "Hello"
+[playbooks.params]
+prompt = "Hello"
