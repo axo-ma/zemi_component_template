@@ -105,5 +105,8 @@ are located directly in the expected roots.
   values under its `playbooks.params` table, and tag the notebook defaults cell
   exactly `parameters` for Papermill.
 - Store component parameter TOMLs in `params/` and track them in Git.
+- Keep `params/README.md` linked to the canonical parameter specification and
+  complete example in the bundled `zemi` library. Store new ZEMI library
+  specifications and reusable examples in that library, not in the template.
 - Access the component root through `env.path.comp.root` and per-process run
   output through `env.path.comp.runid`.
