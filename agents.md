@@ -97,14 +97,24 @@ are located directly in the expected roots.
 
 ## Component execution
 
+- Keep a job file as a thin ZEMI entry point: select one tracked TOML inside
+  the component, call `ZemiComponent.run()`, and close it. Do not put
+  model-specific orchestration, notebook-source `exec`, tokenizer servers, or
+  duplicated parameter-file synchronization in the job.
+- For one playbook compared across models or other parameter values, use one
+  `[[modules]]` entry and a ParamSpace dimension with grid optimization. Add
+  another Module only when it is a distinct workflow, not to force separate
+  Arsenal sessions without a measured resource need.
+- Keep one canonical parameter TOML near its experiment or playbook. Do not
+  maintain a mirror elsewhere.
 - Keep exactly one declarative `job.exp.py` in this component template. A
   component created from the template may contain any number of job files,
   including separate jobs for individual playbooks or other execution flows.
-- Keep complete component configurations as tracked TOML files in `params/`.
+- Keep complete component configurations as tracked TOML files.
   Define every playbook as a `[[modules]]` entry with `kind = "playbook"`, put
   notebook-only values under its `[modules.params]` table, and tag the notebook defaults cell
   exactly `parameters` for Papermill.
-- Store component parameter TOMLs in `params/` and track them in Git.
+- Track component parameter TOMLs in Git.
 - Keep `params/README.md` linked to the canonical parameter specification and
   complete example in the bundled `zemi` library. Store new ZEMI library
   specifications and reusable examples in that library, not in the template.
