@@ -76,16 +76,18 @@ component-specific operations. Place additional operations before
 ## 3. Configure and run the component
 
 Each TOML file in `params/` is a complete component configuration. The
-canonical Params 0.3 structure is explicit:
+canonical Params 0.6 structure is explicit:
 
-- `[system]` declares `version = "0.3"`; user values belong in
+- `[system]` declares `version = "0.6"`; user values belong in
   `[system.params]`;
 - `[component]` contains ZEMI lifecycle fields and `[component.params]`
   contains component-owned user values;
 - each `[[arsenals]]` has a stable `id`, closed lifecycle fields, and optional
   `[arsenals.params]` user values;
-- each top-level `[[playbooks]]` names its parent Arsenal explicitly and passes
-  only its nested `[playbooks.params]` values to Papermill.
+- each top-level `[[modules]]` declares `kind = "playbook"`, optionally names
+  an Arsenal, and passes only `[modules.params]` values to Papermill. Optimized
+  Modules configure `[modules.optimizer.sample_trial]` and
+  `[modules.optimizer.trial_dataset]` separately.
 
 Run the complete component from its root:
 
@@ -186,13 +188,14 @@ id = "local-models"
 config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
 lifecycle = "job"
 
-[[playbooks]]
+[[modules]]
 id = "default"
-path = "playbook.ipynb"
+kind = "playbook"
+path = "@comp/playbook.ipynb"
 arsenal = "local-models"
 enabled = true
 
-[playbooks.params]
+[modules.params]
 model_name = "lfm2_350m"
 ```
 

@@ -1,5 +1,5 @@
 [system]
-version = "0.3"
+version = "0.6"
 [system.params]
 
 [component]
@@ -12,11 +12,12 @@ config_path = "@comp/arsenal_openrouter_free.toml"
 lifecycle = "job"
 [arsenals.params]
 
-[[playbooks]]
+[[modules]]
+kind = "playbook"
 id = "openrouter-free"
-path = "playbook_openrouter_free.ipynb"
+path = "@comp/playbook_openrouter_free.ipynb"
 arsenal = "openrouter-free"
 enabled = false
 
-[playbooks.params]
+[modules.params]
 prompt = "Hello"

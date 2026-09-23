@@ -101,8 +101,8 @@ are located directly in the expected roots.
   component created from the template may contain any number of job files,
   including separate jobs for individual playbooks or other execution flows.
 - Keep complete component configurations as tracked TOML files in `params/`.
-  Define every playbook in each applicable configuration, put notebook-only
-  values under its `playbooks.params` table, and tag the notebook defaults cell
+  Define every playbook as a `[[modules]]` entry with `kind = "playbook"`, put
+  notebook-only values under its `[modules.params]` table, and tag the notebook defaults cell
   exactly `parameters` for Papermill.
 - Store component parameter TOMLs in `params/` and track them in Git.
 - Keep `params/README.md` linked to the canonical parameter specification and

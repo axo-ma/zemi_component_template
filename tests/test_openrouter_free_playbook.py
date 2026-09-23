@@ -46,8 +46,10 @@ class OpenRouterFreePlaybookTests(unittest.TestCase):
         begin_source = "".join(self.cells[begin]["source"])
         end_source = "".join(self.cells[end]["source"])
         self.assertIn("ArsenalSession(arsenal_config_path)", begin_source)
-        self.assertIn("stop_before_begin=not arsenal_start_and_stop_at_job_level", begin_source)
-        self.assertIn("stop_after_end=not arsenal_start_and_stop_at_job_level", end_source)
+        self.assertIn("if not arsenal_start_and_stop_at_job_level:", begin_source)
+        self.assertIn("zemi.arsenal.begin(arsenal, stop_before_begin=True)", begin_source)
+        self.assertIn("if not arsenal_start_and_stop_at_job_level:", end_source)
+        self.assertIn("zemi.arsenal.end(arsenal, stop_after_end=True)", end_source)
         self.assertNotIn("chat.completions", begin_source + end_source)
 
     def test_interactive_work_has_no_wrapper_and_uses_remote_model_id(self) -> None:
@@ -70,7 +72,7 @@ class OpenRouterFreePlaybookTests(unittest.TestCase):
         self.assertEqual(lifecycle["lifecycle"], "job")
         self.assertNotIn("arsenal_stop_before_playbook_begin", lifecycle)
         self.assertNotIn("arsenal_stop_after_playbook_end", lifecycle)
-        self.assertFalse(params["playbooks"][0]["enabled"])
+        self.assertFalse(params["modules"][0]["enabled"])
 
     def test_all_template_arsenal_notebooks_use_the_single_flag(self) -> None:
         for name in (
@@ -91,14 +93,9 @@ class OpenRouterFreePlaybookTests(unittest.TestCase):
                     "".join(cell.get("source", []))
                     for cell in notebook["cells"] if cell.get("cell_type") == "code"
                 )
-                self.assertIn(
-                    "stop_before_begin=not arsenal_start_and_stop_at_job_level",
-                    code,
-                )
-                self.assertIn(
-                    "stop_after_end=not arsenal_start_and_stop_at_job_level",
-                    code,
-                )
+                self.assertEqual(code.count("if not arsenal_start_and_stop_at_job_level:"), 2)
+                self.assertIn("zemi.arsenal.begin(arsenal, stop_before_begin=True)", code)
+                self.assertIn("zemi.arsenal.end(arsenal, stop_after_end=True)", code)
                 self.assertNotIn("arsenal_stop_before_playbook_begin", defaults + code)
                 self.assertNotIn("arsenal_stop_after_playbook_end", defaults + code)
 
