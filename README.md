@@ -126,3 +126,5 @@ Follow the component marker, environment, lifecycle and path rules in
 `agents.md`. Use `@comp/` and `@inst/` paths in TOML and `env.path` in Python.
 
 Report header navigation: Sample and Runs → Module; Run → Runs; Dataset Item → Dataset. These headers contain one back link each; links inside tables remain available.
+
+Dataset error cells show Error plus the actual returned model response. Long responses link to the full raw text in Dataset Item Report; absent responses show —.
