@@ -21,7 +21,7 @@ encoding_prompt = { values = [
     { prompt_name = "cells_examples", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells" },
     { prompt_name = "cells_compact_basic", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells_compact" },
     { prompt_name = "cells_compact_examples", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells_compact" }
-], start = { prompt_name = "cells_basic", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells" } }
+] }
 
 [modules.optimizer]
 mode = "optimize"
