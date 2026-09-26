@@ -95,9 +95,10 @@ LM Time excludes tokenization and notebook execution. Float values in reports
 use three decimal places. The optimizer uses `TableDetectionSampleTrial` for
 aggregate exact table-boundary F1.
 
-ZEMI generates Review Reports automatically for optimized Modules. The job has
-no review setup. ZEMI collects configured prompts, encoders, dataset, SampleTrial,
+ZEMI generates Reproduction Reports automatically for optimized Modules. The job has
+no report setup. ZEMI collects configured prompts, encoders, dataset, SampleTrial,
 model configuration, job/playbook/params sources and actual Git provenance.
+Sample Reports show Parameters, the selected Prompt with examples, Evaluation and universal Runs. Feedback remains in structured results. Module Samples include Mean item tokens and Mean prompt tokens; variable configuration values are shown as —. Duration uses minutes/seconds or hours/minutes; LM Time remains seconds. Reproduction Reports retain configuration and launch instructions without results or prompts.
 Dataset Reports show Target separately and exact matches as ✅; long mismatches
 link to their full Prediction. Reports and output notebooks are written to
 `.tmp/runYYMMDD-HHMMSS/`. Automatic HTML notebook copies are not generated.
@@ -109,7 +110,7 @@ Canonical library documentation:
 
 - [Params 0.6](zemi/docs/ZEMI_PARAMS_0.6.md)
 - [Encoding and prompt packages](zemi/docs/ENCODING_PROMPTS.md)
-- [Review Report](zemi/docs/report-specifications/review-report.spec.md)
+- [Reproduction Report](zemi/docs/report-specifications/reproduction-report.spec.md)
 
 ## Optional external smoke example
 
