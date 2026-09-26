@@ -8,14 +8,14 @@ stop_on_error = true
 
 [[arsenals]]
 id = "openrouter-free"
-config_path = "@comp/arsenal_openrouter_free.toml"
+config_path = "@comp/example/optional_openrouter/arsenal_openrouter_free.toml"
 lifecycle = "job"
 [arsenals.params]
 
 [[modules]]
 kind = "playbook"
 id = "openrouter-free"
-path = "@comp/playbook_openrouter_free.ipynb"
+path = "@comp/example/optional_openrouter/playbook_openrouter_free.ipynb"
 arsenal = "openrouter-free"
 enabled = false
 

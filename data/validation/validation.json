@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "id": "single_table",
+      "input": {
+        "workbook_path": "@comp/data/validation/single_table.xlsx",
+        "worksheet_name": "Sheet1"
+      },
+      "ground_truth": [
+        "A1:C4"
+      ]
+    },
+    {
+      "id": "offset_table",
+      "input": {
+        "workbook_path": "@comp/data/validation/offset_table.xlsx",
+        "worksheet_name": "Sheet1"
+      },
+      "ground_truth": [
+        "B3:D6"
+      ]
+    },
+    {
+      "id": "two_tables",
+      "input": {
+        "workbook_path": "@comp/data/validation/two_tables.xlsx",
+        "worksheet_name": "Sheet1"
+      },
+      "ground_truth": [
+        "A1:B4",
+        "D1:E4"
+      ]
+    },
+    {
+      "id": "no_tables",
+      "input": {
+        "workbook_path": "@comp/data/validation/no_tables.xlsx",
+        "worksheet_name": "Sheet1"
+      },
+      "ground_truth": []
+    }
+  ]
+}

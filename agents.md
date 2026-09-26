@@ -107,16 +107,17 @@ are located directly in the expected roots.
   Arsenal sessions without a measured resource need.
 - Keep one canonical parameter TOML near its experiment or playbook. Do not
   maintain a mirror elsewhere.
-- Keep exactly one declarative `job.exp.py` in this component template. A
-  component created from the template may contain any number of job files,
-  including separate jobs for individual playbooks or other execution flows.
+- Keep the two standard examples self-contained in `example/` and
+  `optimizer_example/`, each with its own thin `job.py`, playbook and `params/`.
+  Shared validation workbooks belong in `data/validation/`. Initialization
+  remains in the component root (`00_init.py` and `00_init.toml`).
 - Keep complete component configurations as tracked TOML files.
   Define every playbook as a `[[modules]]` entry with `kind = "playbook"`, put
   notebook-only values under its `[modules.params]` table, and tag the notebook defaults cell
   exactly `parameters` for Papermill.
 - Track component parameter TOMLs in Git.
-- Keep `params/README.md` linked to the canonical parameter specification and
-  complete example in the bundled `zemi` library. Store new ZEMI library
+- Link the README to the canonical parameter specification and
+  complete examples in the bundled `zemi` library. Store new ZEMI library
   specifications and reusable examples in that library, not in the template.
 - Access the component root through `env.path.comp.root` and per-process run
   output through `env.path.comp.runid`.

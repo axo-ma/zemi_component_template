@@ -1,0 +1,20 @@
+[system]
+version = "0.6"
+[component]
+name = "example"
+stop_on_error = false
+[[arsenals]]
+id = "local-models"
+config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
+lifecycle = "job"
+[[modules]]
+id = "table-detection"
+kind = "playbook"
+path = "@comp/example/playbook.ipynb"
+arsenal = "local-models"
+[modules.params]
+model_name = "qwen35_4b"
+temperature = 0.0
+max_tokens = 1024
+encoding_prompt = { prompt_name = "cells_basic", prompt_file = "@comp/example/params/prompts.md", encoder = "@comp/example/params/encoder.py:encode", encoding_format = "cells" }
+dataset_input = { workbook_path = "@comp/data/validation/single_table.xlsx", worksheet_name = "Sheet1" }

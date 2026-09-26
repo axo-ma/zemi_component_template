@@ -1,0 +1,32 @@
+[system]
+version = "0.6"
+[component]
+name = "optimizer_example"
+stop_on_error = false
+[[arsenals]]
+id = "local-models"
+config_path = "@comp/zemi/llm_curated_set_model_mode.toml"
+lifecycle = "job"
+[[modules]]
+id = "table-detection"
+kind = "playbook"
+path = "@comp/optimizer_example/playbook.ipynb"
+arsenal = "local-models"
+[modules.params]
+model_name = "qwen35_4b"
+temperature = 0.0
+max_tokens = 1024
+encoding_prompt = { values = [
+    { prompt_name = "cells_basic", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells" },
+    { prompt_name = "cells_examples", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells" },
+    { prompt_name = "cells_compact_basic", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells_compact" },
+    { prompt_name = "cells_compact_examples", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells_compact" }
+], start = { prompt_name = "cells_basic", prompt_file = "@comp/optimizer_example/params/prompts.md", encoder = "@comp/optimizer_example/params/encoder.py:encode", encoding_format = "cells" } }
+
+[modules.optimizer]
+mode = "optimize"
+strategy = "grid"
+[modules.optimizer.sample_trial]
+type = "@comp/zemi/sample_trial.py:TableDetectionSampleTrial"
+[modules.optimizer.trial_dataset]
+path = "@comp/data/validation/validation.json"
