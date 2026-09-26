@@ -269,6 +269,13 @@ including `grammar` and `json_schema`, without Arsenal library filtering.
 
 ## Optimized playbook execution
 
+Prompt/encoder packages live together in `params/<experiment>/`: `params.toml`,
+`prompts.md` and `encoder.py`. The playbook accepts an `encoding_prompt` binding
+and uses `zemi.prompting.build_prompt`. See the canonical
+[package specification](zemi/docs/ENCODING_PROMPTS.md).
+The optional `params/encoding_example/params.toml` demonstrates a concrete
+binding; supply `data/input.xlsx` with worksheet `Sheet1` before selecting it.
+
 `job.exp.py` calls `zemi.review.configure_review` before execution. Every
 optimized Module receives a standard Review Report with configuration,
 reproduction commands, results and source/Git snapshots. Optional component
