@@ -269,6 +269,13 @@ including `grammar` and `json_schema`, without Arsenal library filtering.
 
 ## Optimized playbook execution
 
+`job.exp.py` calls `zemi.review.configure_review` before execution. Every
+optimized Module receives a standard Review Report with configuration,
+reproduction commands, results and source/Git snapshots. Optional component
+metadata and prompt templates use the same library API. See the canonical
+[Review Report specification](zemi/docs/report-specifications/review-report.spec.md)
+and [job example](zemi/examples/job_with_review.py).
+
 In `optimize` and `start_only` modes, ZEMI reuses one Python kernel per Module
 by default. To request a fresh process for each Run, set
 `reuse_kernel = false` in `[modules.optimizer]`.
