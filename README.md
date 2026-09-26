@@ -98,7 +98,7 @@ aggregate exact table-boundary F1.
 ZEMI generates Reproduction Reports automatically for optimized Modules. The job has
 no report setup. ZEMI collects configured prompts, encoders, dataset, SampleTrial,
 model configuration, job/playbook/params sources and actual Git provenance.
-Sample Reports show Parameters, the selected Prompt with examples, Evaluation and universal Runs. Feedback remains in structured results. Module Samples include Mean item tokens and Mean prompt tokens; variable configuration values are shown as —. Duration uses minutes/seconds or hours/minutes; LM Time remains seconds. Reproduction Reports retain configuration and launch instructions without results or prompts.
+Sample Reports show Parameters, Evaluation, the selected Prompt with examples and universal Runs. Feedback remains in structured results. Module Samples use Mean Tokens (item / prompt) and Duration (module / LM), with LM being the sum of model-call times; variable configuration values are shown as —. Duration uses minutes/seconds or hours/minutes; LM Time remains seconds. Reproduction Reports retain configuration and launch instructions without results or prompts.
 Dataset Reports show Target separately and exact matches as ✅; long mismatches
 link to their full Prediction. Reports and output notebooks are written to
 `.tmp/runYYMMDD-HHMMSS/`. Automatic HTML notebook copies are not generated.
@@ -124,3 +124,5 @@ used by validation or optimization.
 Add dependencies through `00_init.toml` and rerun `00_init.py` when needed.
 Follow the component marker, environment, lifecycle and path rules in
 `agents.md`. Use `@comp/` and `@inst/` paths in TOML and `env.path` in Python.
+
+Report header navigation: Sample and Runs → Module; Run → Runs; Dataset Item → Dataset. These headers contain one back link each; links inside tables remain available.
