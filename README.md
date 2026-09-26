@@ -266,3 +266,18 @@ assistant.clients.guidance.model
 Each object is created on first access and then cached. The low-level
 `openai.client` and `httpx.client` integrations pass llama.cpp parameters,
 including `grammar` and `json_schema`, without Arsenal library filtering.
+
+## Optimized playbook execution
+
+In `optimize` and `start_only` modes, ZEMI reuses one Python kernel per Module
+by default. To request a fresh process for each Run, set
+`reuse_kernel = false` in `[modules.optimizer]`.
+Interactive variables and output publication are reset between Runs. Imports
+and compatible Arsenal OpenAI clients are retained; mutable state inside
+imported modules requires a fresh kernel when process isolation is needed.
+Each Run retains its output IPYNB; automatic HTML copies are no longer generated.
+
+Dataset Reports show a separate Target column and one prediction column per
+Sample. Successful exact matches show ✅, including empty results. Long
+mismatches link to the Dataset Item Report. Sample and Run filenames include
+the Module and identifier once.
