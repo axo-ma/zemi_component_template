@@ -1,5 +1,29 @@
 # ZEMI Component
 
+## Automatic dataset and review reports
+
+Dataset reports show a separate Target and one prediction column per sample.
+Long predictions end with a clickable `...` leading to the complete Prediction
+in the Dataset Item Report.
+
+For optimized modules, configure an automatic Review Report before `component.run()`:
+
+```python
+component.reporting.configure_review(
+    "your-module-id",
+    entrypoint="@comp/job.exp.py",
+    settings={"Output format": '{"ranges":[...]}'},
+    prompts={"format-name": full_prompt_template},
+    sources=["@comp/prompts.md"],
+)
+```
+
+Use actual module IDs, prompt templates and source files for your component.
+ZEMI saves settings, source text and Git provenance at launch and generates
+`<module_id>.review.md` with configuration, reproduction, results and prompts.
+The Module Report links to it. See the library's
+[Review Report specification](zemi/docs/report-specifications/review-report.spec.md).
+
 ## Optional OpenRouter Free playbook
 
 `playbook_openrouter_free.ipynb` is an opt-in smoke example for OpenRouter's
