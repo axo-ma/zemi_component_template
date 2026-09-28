@@ -130,3 +130,5 @@ Report header navigation: Sample and Runs → Module; Run → Runs; Dataset Item
 Dataset error cells show Error plus the actual returned model response. Long responses link to the full raw text in Dataset Item Report; absent responses show —.
 
 Variable parameters may omit `start`: the first `values` element (including a complete encoding/prompt binding) or the range `min` becomes the start. List order determines the start in `start_only` too. Explicit starts must belong to the domain.
+
+Dataset Report navigation: the first Items column (Item ID) opens the source Excel workbook; the second column (Matches) opens the Dataset Item Report. With no source workbook, Item ID remains plain text.
