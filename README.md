@@ -127,7 +127,7 @@ Follow the component marker, environment, lifecycle and path rules in
 
 Report header navigation: Sample and Runs → Module; Run → Runs; Dataset Item → Dataset. These headers contain one back link each; links inside tables remain available.
 
-Dataset error cells show Error plus the actual returned model response. Long responses link to the full raw text in Dataset Item Report; absent responses show —.
+Dataset sample cells keep exact-match checkmarks. A single range and [] are plain text. Multiple results show the first result followed by ... and expand in place; Error... expands error details and the raw model response. Errors without details show plain Error. Expansion uses HTML details within Markdown table cells; Matches still links to the Dataset Item Report.
 
 Variable parameters may omit `start`: the first `values` element (including a complete encoding/prompt binding) or the range `min` becomes the start. List order determines the start in `start_only` too. Explicit starts must belong to the domain.
 
