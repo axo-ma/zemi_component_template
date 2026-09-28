@@ -132,3 +132,5 @@ Dataset sample cells keep exact-match checkmarks. A single range and [] are plai
 Variable parameters may omit `start`: the first `values` element (including a complete encoding/prompt binding) or the range `min` becomes the start. List order determines the start in `start_only` too. Explicit starts must belong to the domain.
 
 Dataset Report navigation: the first Items column (Item ID) opens the source Excel workbook; the second column (Matches) opens the Dataset Item Report. With no source workbook, Item ID remains plain text.
+
+Dataset Report sample column headers contain only Sample N, without prompt names or parameter values. Each header links to its Sample Report.
