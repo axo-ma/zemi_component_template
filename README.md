@@ -134,3 +134,7 @@ Variable parameters may omit `start`: the first `values` element (including a co
 Dataset Report navigation: the first Items column (Item ID) opens the source Excel workbook; the second column (Matches) opens the Dataset Item Report. With no source workbook, Item ID remains plain text.
 
 Dataset Report sample column headers contain only Sample N, without prompt names or parameter values. Each header links to its Sample Report.
+
+## Interactive Dataset Reports and console output
+
+New Dataset Reports include a neighbouring `.dataset.cmd` launcher for the local Qt viewer. The ZEMI CLI workspace setup associates `*.dataset.cmd` with the installed Open with System Editor extension. Captured model requests allow terminal continuation from dataset cells; terminal answers stream and show server-reported completion tokens and total request time. Managed llama.cpp logs are stored under `@inst/_tmp/arsenal-logs` for both notebooks and chats; startup failures include diagnostics and the log path. See [Report viewer](zemi/docs/REPORT_VIEWER.md) for dependencies and lifecycle details.
