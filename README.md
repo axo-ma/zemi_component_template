@@ -125,16 +125,18 @@ Add dependencies through `00_init.toml` and rerun `00_init.py` when needed.
 Follow the component marker, environment, lifecycle and path rules in
 `agents.md`. Use `@comp/` and `@inst/` paths in TOML and `env.path` in Python.
 
-Report header navigation: Sample and Runs → Module; Run → Runs; Dataset Item → Dataset. These headers contain one back link each; links inside tables remain available.
+Report header navigation: Sample, Runs and Dataset Item → Module. These headers contain one back link each. Individual Run Reports are no longer generated; run links lead to the Runs summary.
 
 Dataset sample cells keep exact-match checkmarks. A single range and [] are plain text. Multiple results show the first result followed by ... and expand in place; Error... expands error details and the raw model response. Errors without details show plain Error. Expansion uses HTML details within Markdown table cells; Matches still links to the Dataset Item Report.
 
 Variable parameters may omit `start`: the first `values` element (including a complete encoding/prompt binding) or the range `min` becomes the start. List order determines the start in `start_only` too. Explicit starts must belong to the domain.
 
-Dataset Report navigation: the first Items column (Item ID) opens the source Excel workbook; the second column (Matches) opens the Dataset Item Report. With no source workbook, Item ID remains plain text.
+Items navigation: the narrow # column and Matches open the Dataset Item Report; Item ID opens the source Excel workbook. With no source workbook, Item ID remains plain text.
 
-Dataset Report sample column headers contain only Sample N, without prompt names or parameter values. Each header links to its Sample Report.
+Items sample column headers show Sample N and its score on the second line, without prompt names or parameter values. Each header links to its Sample Report. The greatest score is highlighted in green, including ties.
 
 ## Interactive Dataset Reports and console output
 
-New Dataset Reports include a neighbouring `.dataset.cmd` launcher for the local Qt viewer. The ZEMI CLI workspace setup associates `*.dataset.cmd` with the installed Open with System Editor extension. Captured model requests allow terminal continuation from dataset cells; terminal answers stream and show server-reported completion tokens and total request time. Managed llama.cpp logs are stored under `@inst/_tmp/arsenal-logs` for both notebooks and chats; startup failures include diagnostics and the log path. See [Report viewer](zemi/docs/REPORT_VIEWER.md) for dependencies and lifecycle details.
+Module Reports begin with Samples and then Items. Each module produces `.md`, `.html`, `.inline.html`, `.json` and one `.cmd` launcher; no separate Dataset Report is generated. HTML uses the CMD viewer palette and native expandable cells. The ready inline fragment can be displayed in Codex without rebuilding its tables; terminal launch from the embedded fragment is not provided. Module JSON contains all samples, items and runs for analysis.
+
+Keep one successful output notebook per sample and all failed notebooks. Raw results and captured requests remain available for all runs. The ZEMI CLI workspace setup associates `*.cmd` with Open with System Editor. The local Qt viewer still supports terminal continuation from cells. Managed llama.cpp logs remain under `@inst/_tmp/arsenal-logs`. See [Report viewer](zemi/docs/REPORT_VIEWER.md) for the complete contract.
